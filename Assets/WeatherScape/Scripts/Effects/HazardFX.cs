@@ -11,7 +11,7 @@ namespace WeatherScape.Effects
     {
         readonly BuiltScene s;
         readonly Transform root;
-        GameObject volcano, volcanoGlow, fire, flood, tsunami, dust;
+        GameObject volcano, volcanoGlow, lava, fire, flood, tsunami, dust;
         Material floodMat, tsunamiMat;
         ParticleSystem plume, steam, dustPs;
         bool erupting, quake, flooding, tsunamiOn, burning;
@@ -42,6 +42,7 @@ namespace WeatherScape.Effects
             if (plume != null) { Play(plume, erupting); var em = plume.emission; em.rateOverTime = erupting ? 45f : 0f; }
             if (steam != null) { Play(steam, volcanoNear && !erupting); var em = steam.emission; em.rateOverTime = volcanoNear && !erupting ? 4f : 0f; }
             if (volcanoGlow != null) volcanoGlow.SetActive(erupting);
+            if (lava != null) lava.SetActive(erupting);
 
             if (quake) EnsureDust();
             if (flooding || tsunamiOn) EnsureFlood();
@@ -112,7 +113,8 @@ namespace WeatherScape.Effects
                     b["volcano_rock"].Tri(ring[k, i], ring[k, n], ring[k + 1, n]);
                 }
             var top = p + Vector3.up * (H * 0.93f);
-            for (int i = 0; i < sides; i++) b["lava"].Tri(ring[rr.Length - 1, i], ring[rr.Length - 1, (i + 1) % sides], top);
+            var lb = new MeshBatch();
+            for (int i = 0; i < sides; i++) lb["lava"].Tri(ring[rr.Length - 1, i], ring[rr.Length - 1, (i + 1) % sides], top);
             // lava streaks down the slope
             for (int k = 0; k < 6; k++)
             {
@@ -124,10 +126,13 @@ namespace WeatherScape.Effects
                     Vector3 P(float t) { float rad = Mathf.Lerp(crater * 1.1f, R0 * 0.55f, t); return p + d * rad + Vector3.up * (ConeH(rad / R0, rr, hh) * H + 3f) + Vector3.Cross(Vector3.up, d) * Mathf.Sin(t * 9f + k) * 12f; }
                     var side = Vector3.Cross(Vector3.up, d) * (6f - seg * 0.4f);
                     Vector3 a0 = P(t0) - side, a1 = P(t0) + side, b0 = P(t1) - side, b1 = P(t1) + side;
-                    b["lava"].Quad(a0 + d * 2f, b0 + d * 2f, b1 + d * 2f, a1 + d * 2f, Vector2.zero, Vector2.up, Vector2.one, Vector2.right);
+                    lb["lava"].Quad(a0 + d * 2f, b0 + d * 2f, b1 + d * 2f, a1 + d * 2f, Vector2.zero, Vector2.up, Vector2.one, Vector2.right);
                 }
             }
             b.Flush(volcano.transform, "VolcanoMesh", s.mats, false);
+            lava = new GameObject("Lava") { hideFlags = HideFlags.DontSave };
+            lava.transform.SetParent(volcano.transform, false);
+            lb.Flush(lava.transform, "LavaMesh", s.mats, false);
             foreach (var t in volcano.GetComponentsInChildren<Transform>()) t.gameObject.hideFlags = HideFlags.DontSave;
 
             var puff = Tex.Puff(5); s.mats.Own(puff);

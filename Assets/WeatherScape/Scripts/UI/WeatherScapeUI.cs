@@ -24,6 +24,7 @@ namespace WeatherScape.UI
         TextField search;
         readonly List<(Button b, System.Func<bool> on)> toggles = new List<(Button, System.Func<bool>)>();
         bool built;
+        string lastPlaceKey;
 
         static string F0(float v) => v.ToString("0", CultureInfo.InvariantCulture);
         static string F1(float v) => v.ToString("0.0", CultureInfo.InvariantCulture);
@@ -303,7 +304,7 @@ namespace WeatherScape.UI
             phaseLine.text = $"{Loc.T("Showing")}: <b>{Loc.Phase(c.phase)}</b> · <b>{Loc.Weather(c.weatherKind)}</b>" +
                              (app.overrides.phase >= 0 || app.overrides.weather >= 0 ? " " + Loc.T("(override)") : "") +
                              $" · {Loc.T(Effects.SceneAnimator.SeasonFor(c).ToString())}";
-            if (search != null && string.IsNullOrEmpty(search.value)) search.value = p.query ?? p.name;
+            if (search != null && p.Key != lastPlaceKey) { lastPlaceKey = p.Key; search.SetValueWithoutNotify(p.name); }
 
             // banner
             banner.Clear();

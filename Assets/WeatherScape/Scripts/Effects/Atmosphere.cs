@@ -77,6 +77,8 @@ namespace WeatherScape.Effects
             RenderSettings.ambientGroundColor = L.ambGround;
             RenderSettings.fogColor = L.fogColor;
             RenderSettings.fogDensity = L.fogDensity;
+            // the reflection probe is baked from a daytime sky: dim it at night and under heavy cloud
+            RenderSettings.reflectionIntensity = Mathf.Lerp(0.08f, 1f, 1f - L.night) * Mathf.Lerp(1f, 0.55f, L.cloudCover);
             if (color != null)
             {
                 color.saturation.Override(L.saturation);

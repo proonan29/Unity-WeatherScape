@@ -114,7 +114,7 @@ namespace WeatherScape.Effects
                 default: oc = 1f; fog = 0.0019f; sat = -35f; cloudSpeed = 0.07f; break; // typhoon
             }
             if (c.weatherKind == WeatherKind.Clear && w != null && c.mode == DataMode.Live) oc = Mathf.Clamp(w.cloudCover / 100f, 0.05f, 0.45f);
-            if (c.fog) fog = Mathf.Max(fog, 0.0028f);
+            if (c.fog && c.weatherKind == c.autoWeather) fog = Mathf.Max(fog, 0.0028f);
             float dark = c.weatherKind == WeatherKind.HeavyRain || c.weatherKind == WeatherKind.Typhoon ? 0.42f : c.weatherKind == WeatherKind.Cloudy ? 0.78f : c.weatherKind == WeatherKind.Clear ? 1f : 0.6f;
             if (c.weatherKind == WeatherKind.Snow) dark = 0.8f;
             float gray = Mathf.Lerp(0.06f, 0.62f, day) * Mathf.Lerp(1f, dark, day);

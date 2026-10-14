@@ -35,13 +35,13 @@ Material:
     m_Colors:
     - _CloudColor: {r: 0.1, g: 0.11, b: 0.15, a: 1}
     - _CloudShade: {r: 0.05, g: 0.06, b: 0.09, a: 1}
-    - _GroundColor: {r: 0.015, g: 0.02, b: 0.0375, a: 0.5}
-    - _HorizonColor: {r: 0.03, g: 0.04, b: 0.075, a: 1}
+    - _GroundColor: {r: 0.03, g: 0.04, b: 0.07, a: 0.5}
+    - _HorizonColor: {r: 0.14, g: 0.12959999, b: 0.168, a: 1.08}
     - _MoonColor: {r: 0.8, g: 0.85, b: 1, a: 1}
-    - _MoonDir: {r: 0.38502657, g: 0.57357645, b: -0.7230246, a: 0}
+    - _MoonDir: {r: 0.34051904, g: 0.57357645, b: -0.7450214, a: 0}
     - _SunColor: {r: 0, g: 0, b: 0, a: 0}
-    - _SunDir: {r: -0.37918982, g: -0.59091425, b: 0.71206427, a: 0}
+    - _SunDir: {r: -0.3305711, g: -0.6063201, b: 0.7232557, a: 0}
     - _WindDir: {r: 0.12390082, g: -0.9922946, b: 0, a: 0}
-    - _ZenithColor: {r: 0.008, g: 0.012, b: 0.035, a: 1}
+    - _ZenithColor: {r: 0.02, g: 0.035, b: 0.085, a: 1}
   m_BuildTextureStacks: []
   m_AllowLocking: 1

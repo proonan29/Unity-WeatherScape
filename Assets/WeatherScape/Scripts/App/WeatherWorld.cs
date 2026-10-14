@@ -130,7 +130,7 @@ namespace WeatherScape
             anim.Update(t, dt, camPos, SeaAmp(current));
             hazards.Update(t, dt, current.wind, current.windStrength, !Application.isPlaying);
             if (rig != null) { rig.shakeOffset = hazards.shakeOffset; rig.shakeEuler = hazards.shakeEuler; }
-            bool storm = Current.thunder && (Current.weatherKind == WeatherKind.HeavyRain || Current.weatherKind == WeatherKind.Typhoon || Current.weatherKind == WeatherKind.Rain);
+            bool storm = Current.lightning && (Current.weatherKind == WeatherKind.HeavyRain || Current.weatherKind == WeatherKind.Typhoon || Current.weatherKind == WeatherKind.Rain);
             atmo.UpdateLightning(storm && Application.isPlaying, dt, t, rig != null ? rig.Cam : null, generated);
             precip.Follow(camPos);
             audio.Update(dt, Current.weatherKind, current, Scene.seaMat != null);

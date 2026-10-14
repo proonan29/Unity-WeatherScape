@@ -53,18 +53,18 @@ namespace WeatherScape
             bool weatherOverridden = o != null && o.weather >= 0;
             if (weatherOverridden)
             {
-                c.thunder = c.weatherKind == WeatherKind.HeavyRain || c.weatherKind == WeatherKind.Typhoon;
-                c.fog = false;
+                c.lightning = c.weatherKind == WeatherKind.HeavyRain || c.weatherKind == WeatherKind.Typhoon;
                 c.windStrength = KindWind[(int)c.weatherKind];
                 c.precipIntensity = Classify.PrecipIntensity(c.weatherKind, null);
             }
             else
             {
+                c.lightning = c.thunder;
                 c.windStrength = Mathf.Max(w != null ? Classify.WindStrength(w) : 0.1f, c.weatherKind == WeatherKind.Typhoon ? 0.85f : 0f);
                 c.precipIntensity = Classify.PrecipIntensity(c.weatherKind, w);
             }
             c.windDirDeg = w != null ? (w.windDir + 180f) % 360f : 60f;
-            if (c.weatherKind == WeatherKind.Typhoon) c.thunder = true;
+            if (c.weatherKind == WeatherKind.Typhoon) c.lightning = true;
 
             c.hazards.RemoveAll(h => h.isVirtual);
             if (o != null) foreach (var k in o.virtualHazards) c.hazards.Insert(0, HazardService.Virtual(k));

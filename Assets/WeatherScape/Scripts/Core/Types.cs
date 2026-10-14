@@ -90,7 +90,8 @@ namespace WeatherScape
         public SceneKind autoScene;
         public DayPhase autoPhase;
         public WeatherKind autoWeather;
-        public bool thunder, fog;
+        public bool thunder, fog;        // measured (auto)
+        public bool lightning;           // shown: lightning effects (auto thunder or a stormy override)
 
         // what is shown (auto unless overridden)
         public SceneKind scene;
