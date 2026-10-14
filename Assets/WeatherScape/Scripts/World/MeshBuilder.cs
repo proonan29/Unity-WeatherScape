@@ -14,9 +14,17 @@ namespace WeatherScape.World
 
         public int VertexCount => v.Count;
 
+        /// <summary>First non-degenerate candidate, normalized; never returns a zero/NaN normal (that lights as NaN and blows up in Bloom).</summary>
+        static Vector3 SafeNormal(params Vector3[] candidates)
+        {
+            foreach (var c in candidates) if (c.sqrMagnitude > 1e-10f) return c.normalized;
+            return Vector3.up;
+        }
+
         public void Quad(Vector3 a, Vector3 b, Vector3 c, Vector3 d, Vector2 ua, Vector2 ub, Vector2 uc, Vector2 ud)
         {
-            var nn = Vector3.Cross(b - a, c - a).normalized;
+            // normal from the diagonals: stays valid when one edge collapses (e.g. a hip roof with a zero-length ridge)
+            var nn = SafeNormal(Vector3.Cross(c - a, d - b), Vector3.Cross(b - a, c - a), Vector3.Cross(c - a, d - a));
             int i = v.Count;
             v.Add(a); v.Add(b); v.Add(c); v.Add(d);
             n.Add(nn); n.Add(nn); n.Add(nn); n.Add(nn);
@@ -26,7 +34,7 @@ namespace WeatherScape.World
 
         public void Tri(Vector3 a, Vector3 b, Vector3 c, Vector2 ua, Vector2 ub, Vector2 uc)
         {
-            var nn = Vector3.Cross(b - a, c - a).normalized;
+            var nn = SafeNormal(Vector3.Cross(b - a, c - a));
             int i = v.Count;
             v.Add(a); v.Add(b); v.Add(c);
             n.Add(nn); n.Add(nn); n.Add(nn);

@@ -92,7 +92,7 @@ namespace WeatherScape.EditorTools
             cam.fieldOfView = 42f; cam.nearClipPlane = 0.5f; cam.farClipPlane = 6000f; cam.clearFlags = CameraClearFlags.Skybox;
             camGo.AddComponent<AudioListener>();
             var camData = camGo.AddComponent<UniversalAdditionalCameraData>();
-            camData.renderPostProcessing = true;
+            camData.renderPostProcessing = true; camData.stopNaN = true;   // never let a NaN pixel bloom across the screen
             camData.antialiasing = AntialiasingMode.SubpixelMorphologicalAntiAliasing;
             var rig = camGo.AddComponent<CameraRig>();
 
